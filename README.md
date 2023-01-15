@@ -17,7 +17,9 @@ on:
 permissions: {}
 jobs:
   test:
-    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@e63ffd2de162e7a38c0f1b3ccaba92f9425edb6e # v0.1.0
+    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@fc631d6d1b9b19730fc20dcde15966497469d7fe # v0.1.1
+    with:
+      aqua_policy_config: ${{ env.AQUA_POLICY_CONFIG }}
     permissions:
       pull-requests: write
 ```
@@ -26,8 +28,6 @@ jobs:
 
 - reviewdog
 - golangci-lint
-
-For aqua users,
 
 ```sh
 aqua g -i reviewdog/reviewdog golangci/golangci-lint
