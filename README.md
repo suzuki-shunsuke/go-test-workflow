@@ -30,8 +30,7 @@ jobs:
 For aqua users,
 
 ```sh
-aqua g -i reviewdog/reviewdog
-aqua g -i golangci/golangci-lint
+aqua g -i reviewdog/reviewdog golangci/golangci-lint
 ```
 
 ## LICENSE
