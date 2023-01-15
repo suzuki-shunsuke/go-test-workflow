@@ -7,8 +7,6 @@ GitHub Actions Reusable Workflow for testing Go application
 ```yaml
 ---
 name: test
-env:
-  AQUA_POLICY_CONFIG: ${{ github.workspace }}/aqua-policy.yaml
 on:
   push:
     branches: [main]
@@ -19,7 +17,7 @@ jobs:
   test:
     uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@fc631d6d1b9b19730fc20dcde15966497469d7fe # v0.1.1
     with:
-      aqua_policy_config: ${{ env.AQUA_POLICY_CONFIG }}
+      aqua_policy_config: aqua-policy.yaml
     permissions:
       pull-requests: write
 ```
