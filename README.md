@@ -20,6 +20,7 @@ jobs:
       aqua_policy_config: aqua-policy.yaml
     permissions:
       pull-requests: write
+      contents: read # To checkout private repository
 ```
 
 ## Requirements
