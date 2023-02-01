@@ -11,6 +11,7 @@ permissions: {}
 
 env:
   AQUA_POLICY_CONFIG: ${{ inputs.aqua_policy_config }}
+  AQUA_LOG_COLOR: always
 
 concurrency:
   group: ${{ github.workflow }}--${{ github.ref }}
