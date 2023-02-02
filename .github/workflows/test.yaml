@@ -6,7 +6,6 @@ on:
       aqua_policy_config:
         required: false
         type: string
-    inputs:
       aqua_version:
         required: true
         type: string
