@@ -6,6 +6,10 @@ on:
       aqua_policy_config:
         required: false
         type: string
+    inputs:
+      aqua_version:
+        required: true
+        type: string
 
 permissions: {}
 
@@ -32,7 +36,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
         with:
-          aqua_version: v1.30.2
+          aqua_version: ${{inputs.aqua_version}}
 
       - uses: suzuki-shunsuke/github-action-golangci-lint@4b6bb7682772359cf0e7959932803ca2ff998895 # v0.1.4
         with:
