@@ -24,6 +24,10 @@ jobs:
       contents: read # To checkout private repository
 ```
 
+## Workflow
+
+[Workflow](.github/workflows/test.yaml)
+
 ## Requirements
 
 - reviewdog
