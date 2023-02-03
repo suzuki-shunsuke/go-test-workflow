@@ -9,15 +9,21 @@ on:
       aqua_version:
         required: true
         type: string
+      go-version:
+        required: true
+        type: string
+      golangci-lint-timeout:
+        required: false
+        type: string
 
 permissions: {}
 
 env:
-  AQUA_POLICY_CONFIG: ${{ inputs.aqua_policy_config }}
+  AQUA_POLICY_CONFIG: ${{inputs.aqua_policy_config}}
   AQUA_LOG_COLOR: always
 
 concurrency:
-  group: ${{ github.workflow }}--${{ github.ref }}
+  group: ${{github.workflow}}--${{github.ref}}
   cancel-in-progress: true
 
 jobs:
@@ -30,7 +36,7 @@ jobs:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
       - uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
         with:
-          go-version: "1.19.5"
+          go-version: ${{inputs.go-version}}
           cache: true
 
       - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
@@ -38,7 +44,18 @@ jobs:
           aqua_version: ${{inputs.aqua_version}}
 
       - uses: suzuki-shunsuke/github-action-golangci-lint@4b6bb7682772359cf0e7959932803ca2ff998895 # v0.1.4
+        if: "! github.event.pull_request.head.repo.fork"
         with:
-          timeout: 120s
+          timeout: ${{inputs.golangci-lint-timeout}}
+
+      - run: |
+          if [ -n "$INPUT_TIMEOUT" ]; then
+            golangci-lint run --timeout "$INPUT_TIMEOUT"
+          else
+            golangci-lint run
+          fi
+        if: github.event.pull_request.head.repo.fork
+        env:
+          INPUT_TIMEOUT: ${{inputs.golangci-lint-timeout}}
 
       - run: go test -v ./... -race -covermode=atomic
