@@ -15,7 +15,7 @@ on:
 permissions: {}
 jobs:
   test:
-    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@974c826cf99fff2f29b317a45713e2d5731a0c32 # v0.4.0
+    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@d066660eecb8f8a005d498a561d1938e3a843571 # v0.4.1
     with:
       aqua_policy_config: aqua-policy.yaml
       aqua_version: v1.32.3
