@@ -15,10 +15,12 @@ on:
 permissions: {}
 jobs:
   test:
-    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@fc631d6d1b9b19730fc20dcde15966497469d7fe # v0.1.1
+    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@974c826cf99fff2f29b317a45713e2d5731a0c32 # v0.4.0
     with:
       aqua_policy_config: aqua-policy.yaml
       aqua_version: v1.32.3
+      go-version: 1.19.5
+      golangci-lint-timeout: 120s
     permissions:
       pull-requests: write
       contents: read # To checkout private repository
