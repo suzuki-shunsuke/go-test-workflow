@@ -44,7 +44,8 @@ jobs:
           aqua_version: ${{inputs.aqua_version}}
 
       - uses: suzuki-shunsuke/github-action-golangci-lint@4b6bb7682772359cf0e7959932803ca2ff998895 # v0.1.4
-        if: "! github.event.pull_request.head.repo.fork"
+        if: |
+          github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork
         with:
           timeout: ${{inputs.golangci-lint-timeout}}
 
@@ -54,7 +55,8 @@ jobs:
           else
             golangci-lint run
           fi
-        if: github.event.pull_request.head.repo.fork
+        if: |
+          github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork
         env:
           INPUT_TIMEOUT: ${{inputs.golangci-lint-timeout}}
 
