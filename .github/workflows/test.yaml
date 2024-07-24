@@ -41,7 +41,7 @@ jobs:
       contents: read # To checkout private repository
     steps:
       - run: |
-          echo ":error: Either go-version or go-version-file must be set."
+          echo "::error:: Either go-version or go-version-file must be set."
           exit 1
         if: inputs.go-version == '' && inputs.go-version-file == ''
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
