@@ -39,6 +39,7 @@ jobs:
       - update-aqua-checksums
       - renovate-config-validator
       - ghalint
+      - test
     permissions: {}
     if: failure()
     steps:
@@ -83,3 +84,12 @@ jobs:
       - run: ghalint run
         env:
           GHALINT_LOG_COLOR: always
+
+  test:
+    uses: ./.github/workflows/test.yaml
+    with:
+      aqua_version: v2.40.0
+      go-version-file: go.mod
+    permissions:
+      pull-requests: write
+      contents: read # To checkout private repository
