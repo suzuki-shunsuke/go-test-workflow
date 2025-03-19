@@ -2,96 +2,21 @@
 name: test
 permissions: {}
 on: pull_request
-
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
 jobs:
-  path-filter:
-    # Get changed files to filter jobs
-    timeout-minutes: 30
-    outputs:
-      update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
-      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
-      ghalint: ${{steps.changes.outputs.ghalint}}
-    runs-on: ubuntu-latest
-    permissions: {}
-    steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
-        id: changes
-        with:
-          filters: |
-            update-aqua-checksums:
-              - aqua.yaml
-              - aqua/*.yaml
-              - aqua-checksums.json
-              - .github/workflows/pull_request.yaml
-            renovate-config-validator:
-              - renovate.json5
-              - .github/workflows/pull_request.yaml
-            ghalint:
-              - .github/workflows/*.yaml
-              - aqua/ghalint.yaml
-
   status-check:
-    # This job is used for main branch's branch protection rule's status check.
-    # If all dependent jobs succeed or are skipped this job succeeds.
-    timeout-minutes: 30
-    runs-on: ubuntu-latest
-    needs:
-      - update-aqua-checksums
-      - renovate-config-validator
-      - ghalint
-      - test
-    permissions: {}
+    runs-on: ubuntu-24.04
     if: failure()
+    timeout-minutes: 10
+    permissions: {}
+    needs:
+      - test
     steps:
       - run: exit 1
-
-  update-aqua-checksums:
-    # Update aqua-checksums.json and push a commit
-    needs: path-filter
-    if: needs.path-filter.outputs.update-aqua-checksums == 'true'
-    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@8bce60cc4475128360bc32f00707abb874ca4a91 # v1.0.3
-    permissions:
-      contents: read
-    with:
-      aqua_version: v2.45.1
-      prune: true
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
-  renovate-config-validator:
-    # Validate Renovate Configuration by renovate-config-validator.
-    uses: suzuki-shunsuke/renovate-config-validator-workflow/.github/workflows/validate.yaml@e8effbd185cbe3874cddef63f48b8bdcfc9ada55 # v0.2.4
-    needs: path-filter
-    if: needs.path-filter.outputs.renovate-config-validator == 'true'
-    permissions:
-      contents: read
-
-  ghalint:
-    # Validate GitHub Actions Workflows by ghalint.
-    timeout-minutes: 30
-    needs: path-filter
-    if: needs.path-filter.outputs.ghalint == 'true'
-    runs-on: ubuntu-latest
-    permissions: {}
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-        with:
-          persist-credentials: false
-      - uses: aquaproj/aqua-installer@e2d0136abcf70b7a2f6f505720640750557c4b33 # v3.1.1
-        with:
-          aqua_version: v2.45.1
-        env:
-          AQUA_GITHUB_TOKEN: ${{github.token}}
-      - run: ghalint run
-        env:
-          GHALINT_LOG_COLOR: always
-
   test:
-    uses: ./.github/workflows/test.yaml
-    with:
-      aqua_version: v2.45.1
-      go-version-file: go.mod
+    uses: ./.github/workflows/workflow_call_test.yaml
     permissions:
       pull-requests: write
-      contents: read # To checkout private repository
+      contents: read
