@@ -54,7 +54,7 @@ jobs:
           aqua_version: ${{inputs.aqua_version}}
           policy_allow: ${{inputs.aqua_policy_allow}}
 
-      - uses: suzuki-shunsuke/github-action-golangci-lint@4b6bb7682772359cf0e7959932803ca2ff998895 # v0.1.4
+      - uses: suzuki-shunsuke/github-action-golangci-lint@9ec42b6334deb9b6e0a92372eba2dfbb333062e1 # v0.1.5
         if: |
           github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork
         with:
