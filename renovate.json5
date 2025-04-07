@@ -3,7 +3,7 @@
     'config:recommended',
     'github>suzuki-shunsuke/renovate-config#3.2.0',
     'github>aquaproj/aqua-renovate-config#2.2.0',
-    'github>aquaproj/aqua-renovate-config:file#2.2.0(aqua/.*\\.ya?ml)',
+    'github>aquaproj/aqua-renovate-config:file#2.7.5(aqua/.*\\.ya?ml)',
     'github>suzuki-shunsuke/renovate-config:nolimit#3.2.0',
   ],
 }
