@@ -54,10 +54,16 @@ jobs:
           aqua_version: ${{inputs.aqua_version}}
           policy_allow: ${{inputs.aqua_policy_allow}}
 
-      - run: |
+      - env:
+          GITHUB_TOKEN: ${{github.token}}
+        run: |
           if [ -f .goreleaser.yml ] || [ -f .goreleaser.yaml ];then
             goreleaser check
           fi
+
+      - env:
+          GITHUB_TOKEN: ${{github.token}}
+        run: golangci-lint version
 
       - uses: suzuki-shunsuke/github-action-golangci-lint@9ec42b6334deb9b6e0a92372eba2dfbb333062e1 # v0.1.5
         if: |
