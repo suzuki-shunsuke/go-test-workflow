@@ -44,7 +44,7 @@ jobs:
           persist-credentials: false
       - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
         with:
-          aqua_version: v2.53.11
+          aqua_version: v2.54.0
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
       - run: ghalint run
@@ -54,7 +54,7 @@ jobs:
   test:
     uses: ./.github/workflows/test.yaml
     with:
-      aqua_version: v2.53.11
+      aqua_version: v2.54.0
       go-version-file: go.mod
     permissions:
       pull-requests: write
