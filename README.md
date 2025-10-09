@@ -19,7 +19,7 @@ jobs:
     with:
       aqua_policy_config: aqua-policy.yaml
       aqua_version: v2.55.0
-      go-version: 1.24.0
+      go-version: 1.25.2
       golangci-lint-timeout: 120s
     permissions:
       pull-requests: write
