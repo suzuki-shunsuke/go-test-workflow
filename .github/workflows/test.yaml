@@ -55,15 +55,20 @@ jobs:
           policy_allow: ${{inputs.aqua_policy_allow}}
 
       - env:
-          GITHUB_TOKEN: ${{github.token}}
+          AQUA_GITHUB_TOKEN: ${{github.token}}
         run: |
           if [ -f .goreleaser.yml ] || [ -f .goreleaser.yaml ];then
             goreleaser check
           fi
 
       - env:
-          GITHUB_TOKEN: ${{github.token}}
+          AQUA_GITHUB_TOKEN: ${{github.token}}
         run: golangci-lint version
+
+      - env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+        run: go-licenses --help
+      - run: go-licenses check --disallowed_types=forbidden,restricted,unknown ./...
 
       - uses: suzuki-shunsuke/github-action-golangci-lint@9ec42b6334deb9b6e0a92372eba2dfbb333062e1 # v0.1.5
         if: |
