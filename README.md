@@ -34,9 +34,11 @@ jobs:
 
 - reviewdog
 - golangci-lint
+- goreleaser if `.goreleaser.yml` or `.goreleaser.yaml` exists
+- go-licenses
 
 ```sh
-aqua g -i reviewdog/reviewdog golangci/golangci-lint
+aqua g -i reviewdog/reviewdog golangci/golangci-lint goreleaser/goreleaser google/go-licenses
 ```
 
 ## LICENSE
