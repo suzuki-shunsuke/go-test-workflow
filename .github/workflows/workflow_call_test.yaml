@@ -25,7 +25,7 @@ jobs:
 
   renovate-config-validator:
     # Validate Renovate Configuration by renovate-config-validator.
-    uses: suzuki-shunsuke/renovate-config-validator-workflow/.github/workflows/validate.yaml@e8effbd185cbe3874cddef63f48b8bdcfc9ada55 # v0.2.4
+    uses: suzuki-shunsuke/renovate-config-validator-workflow/.github/workflows/validate.yaml@dcf025732ed76061838048f7f8b0099ae0e89876 # v0.2.5
     needs: path-filter
     if: needs.path-filter.outputs.renovate-config-validator == 'true'
     permissions:
@@ -39,10 +39,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
-      - uses: aquaproj/aqua-installer@d1fe50798dbadd4eb5b98957290ca175f6b4870f # v4.0.2
+      - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
         with:
           aqua_version: v2.55.0
         env:
