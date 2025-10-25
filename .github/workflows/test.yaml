@@ -55,7 +55,7 @@ jobs:
           policy_allow: ${{inputs.aqua_policy_allow}}
 
       - env:
-          AQUA_GITHUB_TOKEN: ${{github.token}}
+          GITHUB_TOKEN: ${{github.token}}
         run: |
           if [ -f .goreleaser.yml ] || [ -f .goreleaser.yaml ];then
             goreleaser check
