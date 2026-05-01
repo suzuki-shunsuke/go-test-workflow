@@ -1,5 +1,8 @@
 # go-test-workflow
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/suzuki-shunsuke/go-test-workflow)
+[Workflow](.github/workflows/test.yaml)
+
 GitHub Actions Reusable Workflow for testing Go application
 
 ## How to use
@@ -15,11 +18,11 @@ on:
 permissions: {}
 jobs:
   test:
-    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@287a75bd5ffae8d64db887708d9262381a7f6655 # v1.1.1
+    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@a35526722b39d5f64145e8fa0af22a68db1fd9d4 # v2.0.1
     with:
       aqua_policy_config: aqua-policy.yaml
-      aqua_version: v2.55.0
-      go-version: 1.25.2
+      aqua_version: v2.57.2
+      go-version: 1.26.2
       golangci-lint-timeout: 120s
     permissions:
       pull-requests: write
