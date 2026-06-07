@@ -38,6 +38,7 @@ jobs:
     permissions:
       pull-requests: write # To update pull requests by reviewdog
       contents: read # To checkout private repository
+      id-token: write
     steps:
       - run: |
           echo "::error:: Either go-version or go-version-file must be set."
