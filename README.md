@@ -21,12 +21,13 @@ jobs:
     uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@a35526722b39d5f64145e8fa0af22a68db1fd9d4 # v2.0.1
     with:
       aqua_policy_config: aqua-policy.yaml
-      aqua_version: v2.57.2
+      aqua_version: v2.59.1
       go-version: 1.26.2
       golangci-lint-timeout: 120s
     permissions:
       pull-requests: write
       contents: read # To checkout private repository
+      id-token: write # For takumi guard
 ```
 
 ## Workflow

@@ -1,7 +1,11 @@
 ---
 name: test (workflow_call)
 permissions: {}
-on: workflow_call
+on:
+  workflow_call:
+    secrets:
+      TAKUMI_GUARD_BOT_ID:
+        required: false
 jobs:
   path-filter:
     # Get changed files to filter jobs
@@ -59,3 +63,4 @@ jobs:
     permissions:
       pull-requests: write
       contents: read # To checkout private repository
+      id-token: write
