@@ -113,17 +113,17 @@ jobs:
           mkdir -p "$gomodcache"
           tar -C "$gomodcache" -xzf "$RUNNER_TEMP/gomodule/gomodcache.tar.gz"
 
-      - uses: flatt-security/setup-takumi-guard-golang@2e3c7c40b538cd68b2ac483def12982ebc8bc02e # v1
-        with:
-          bot-id: ${{secrets.TAKUMI_GUARD_BOT_ID}}
-
       - uses: $/actions/install
         with:
           aqua_version: ${{inputs.aqua_version}}
 
       - env:
-          GITHUB_TOKEN: ${{github.token}}
+          AQUA_GITHUB_TOKEN: ${{github.token}}
         run: |
+          if [ -f .goreleaser.yml ] || [ -f .goreleaser.yaml ];then
+            goreleaser -v
+          fi
+      - run: |
           if [ -f .goreleaser.yml ] || [ -f .goreleaser.yaml ];then
             goreleaser check
           fi
