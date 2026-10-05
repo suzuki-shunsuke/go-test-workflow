@@ -21,8 +21,8 @@ jobs:
     uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@a35526722b39d5f64145e8fa0af22a68db1fd9d4 # v2.0.1
     with:
       aqua_policy_config: aqua-policy.yaml
-      aqua_version: v2.59.1
-      go-version: 1.26.2
+      aqua_version: v2.63.0
+      go-version-file: go.mod
       golangci-lint-timeout: 120s
     permissions:
       pull-requests: write
@@ -36,15 +36,11 @@ jobs:
 
 ## Requirements
 
-- reviewdog
 - golangci-lint
 - goreleaser if `.goreleaser.yml` or `.goreleaser.yaml` exists
-- go-licenses
+- reviewdog (optional)
+- go-licenses (optional)
 
 ```sh
 aqua g -i reviewdog/reviewdog golangci/golangci-lint goreleaser/goreleaser google/go-licenses
 ```
-
-## LICENSE
-
-[MIT](LICENSE)
