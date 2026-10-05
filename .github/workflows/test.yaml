@@ -116,6 +116,10 @@ jobs:
       - uses: $/actions/install
         with:
           aqua_version: ${{inputs.aqua_version}}
+      - run: |
+          root_dir=$(aqua root-dir)
+          mkdir -p "$root_dir"
+          tar -C "$root_dir" -xzf "$RUNNER_TEMP/gomodule/go_install.tar.gz"
 
       - env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
