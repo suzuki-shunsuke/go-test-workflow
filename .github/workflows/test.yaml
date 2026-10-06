@@ -127,13 +127,20 @@ jobs:
           mkdir -p "$gomodcache"
           tar -C "$gomodcache" -xzf "$RUNNER_TEMP/gomodule/gomodcache.tar.gz"
 
+      - name: List installed packages
+        id: pkgs
+        run: |
+          pkgs=golangci-lint
+          if [ -f .goreleaser.yml ] || [ -f .goreleaser.yaml ]; then
+            pkgs="$pkgs goreleaser"
+          fi
+          echo "value=$pkgs" >> "$GITHUB_OUTPUT"
+
       - name: Install tools
         uses: $/actions/install
         with:
           aqua_version: ${{inputs.aqua_version}}
-          packages: |
-            goreleaser
-            golangci-lint
+          packages: ${{steps.pkgs.outputs.value}}
 
       - name: Extract Go install packages (go-licenses)
         run: |
@@ -143,7 +150,7 @@ jobs:
 
       - name: Validate GoReleaser configuration
         run: |
-          if [ -f .goreleaser.yml ] || [ -f .goreleaser.yaml ];then
+          if [ -f .goreleaser.yml ] || [ -f .goreleaser.yaml ]; then
             goreleaser check
           fi
 
