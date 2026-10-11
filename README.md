@@ -1,6 +1,5 @@
 # go-test-workflow
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/suzuki-shunsuke/go-test-workflow)
 [Workflow](.github/workflows/test.yaml)
 
 GitHub Actions Reusable Workflow for testing Go application
@@ -18,7 +17,7 @@ on:
 permissions: {}
 jobs:
   test:
-    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@a35526722b39d5f64145e8fa0af22a68db1fd9d4 # v2.0.1
+    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@f0dafddd9f9075a33e4ff40a44bdabd79335e7a3 # v3.1.1
     with:
       aqua_policy_config: aqua-policy.yaml
       aqua_version: v2.63.0
@@ -52,7 +51,7 @@ jobs:
 
   test:
     needs: [gomodule]
-    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@a35526722b39d5f64145e8fa0af22a68db1fd9d4 # v2.0.1
+    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@f0dafddd9f9075a33e4ff40a44bdabd79335e7a3 # v3.1.1
     with:
       aqua_version: v2.64.0
       go-version-file: go.mod
