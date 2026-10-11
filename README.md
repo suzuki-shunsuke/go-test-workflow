@@ -30,6 +30,39 @@ jobs:
       id-token: write # For takumi guard
 ```
 
+### Share Go modules with other jobs
+
+By default, the workflow downloads Go modules in its own job.
+If you want to share Go modules with other jobs such as integration tests, download them with [download-go-module-action](https://github.com/suzuki-shunsuke/download-go-module-action) in the caller workflow and pass the artifact name via `gomodule_artifact_name`.
+Then the workflow skips downloading Go modules.
+The artifact must include go-licenses.
+
+```yaml
+jobs:
+  gomodule:
+    uses: suzuki-shunsuke/download-go-module-action/.github/workflows/download.yaml@63db944fc861c4f6a4def7af7b0303f221e8bb5e # v0.0.3
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      aqua_version: v2.64.0
+      aqua_packages: go-licenses
+    secrets:
+      TAKUMI_GUARD_BOT_ID: ${{secrets.TAKUMI_GUARD_BOT_ID}}
+
+  test:
+    needs: [gomodule]
+    uses: suzuki-shunsuke/go-test-workflow/.github/workflows/test.yaml@a35526722b39d5f64145e8fa0af22a68db1fd9d4 # v2.0.1
+    with:
+      aqua_version: v2.64.0
+      go-version-file: go.mod
+      gomodule_artifact_name: gomodule
+    permissions:
+      pull-requests: write
+      contents: read # To checkout private repository
+      id-token: write # The skipped gomodule job still requires this permission
+```
+
 ## Workflow
 
 [Workflow](.github/workflows/test.yaml)

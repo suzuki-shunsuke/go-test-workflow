@@ -21,6 +21,13 @@ on:
       golangci-lint-timeout:
         required: false
         type: string
+      gomodule_artifact_name:
+        # The name of the artifact created by suzuki-shunsuke/download-go-module-action in the caller workflow.
+        # If this is set, the gomodule job is skipped and the artifact is used instead,
+        # so the caller can share the artifact with other jobs such as integration tests.
+        # The artifact must include go-licenses (aqua_packages: go-licenses).
+        required: false
+        type: string
     secrets:
       TAKUMI_GUARD_BOT_ID:
         required: false
@@ -37,6 +44,8 @@ jobs:
     # The test job runs code controlled by the caller (e.g. GoReleaser hooks),
     # so it must not have id-token: write.
     # Go modules and go-licenses are passed to the test job via an artifact.
+    # Skipped if the caller passes its own artifact via gomodule_artifact_name.
+    if: inputs.gomodule_artifact_name == ''
     uses: suzuki-shunsuke/download-go-module-action/.github/workflows/download.yaml@63db944fc861c4f6a4def7af7b0303f221e8bb5e # v0.0.3
     permissions:
       contents: read
@@ -52,6 +61,9 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-26.04
     needs: gomodule
+    # Run even if the gomodule job is skipped because gomodule_artifact_name is set
+    if: |
+      !cancelled() && (needs.gomodule.result == 'success' || needs.gomodule.result == 'skipped')
     permissions:
       pull-requests: write # To update pull requests by reviewdog
       contents: read # To checkout private repository
@@ -83,6 +95,7 @@ jobs:
         uses: suzuki-shunsuke/download-go-module-action/restore@63db944fc861c4f6a4def7af7b0303f221e8bb5e # v0.0.3
         with:
           aqua_version: ${{inputs.aqua_version}}
+          artifact_name: ${{inputs.gomodule_artifact_name || 'gomodule'}}
 
       - name: List installed packages
         id: pkgs
