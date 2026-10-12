@@ -57,7 +57,11 @@ jobs:
     secrets:
       TAKUMI_GUARD_BOT_ID: ${{secrets.TAKUMI_GUARD_BOT_ID}}
 
-  test:
+  # lint and test run in separate jobs so that go test doesn't have pull-requests: write.
+  # go test runs code of the repository and its dependencies (tests, init functions, and so on),
+  # while only reviewdog in the lint job needs pull-requests: write.
+  # Don't merge them into one job.
+  lint:
     timeout-minutes: 30
     runs-on: ubuntu-26.04
     needs: gomodule
@@ -72,29 +76,17 @@ jobs:
       # Fail instead of silently downloading modules without Takumi Guard.
       GOPROXY: "off"
     steps:
-      - name: Validate inputs go-version and go-version-file
-        if: inputs.go-version == '' && inputs.go-version-file == ''
-        run: |
-          echo "::error:: Either go-version or go-version-file must be set."
-          exit 1
-
       - name: Checkout the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
-        with:
-          go-version: ${{inputs.go-version}}
-          go-version-file: ${{inputs.go-version-file}}
-          # Go modules are restored from the artifact
-          cache: false
-
-      - name: Restore Go modules and go-licenses
-        uses: suzuki-shunsuke/download-go-module-action/restore@59ba5863b931de21763c13df6ad926cf98158517 # v0.0.8
+      - name: Set up Go and restore Go modules
+        uses: $/actions/setup
         with:
           aqua_version: ${{inputs.aqua_version}}
+          go-version: ${{inputs.go-version}}
+          go-version-file: ${{inputs.go-version-file}}
           artifact_name: ${{inputs.gomodule_artifact_name || 'gomodule'}}
 
       - name: List installed packages
@@ -139,6 +131,33 @@ jobs:
           github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork
         env:
           INPUT_TIMEOUT: ${{inputs.golangci-lint-timeout}}
+
+  test:
+    timeout-minutes: 30
+    runs-on: ubuntu-26.04
+    needs: gomodule
+    # Run even if the gomodule job is skipped because gomodule_artifact_name is set
+    if: |
+      !cancelled() && (needs.gomodule.result == 'success' || needs.gomodule.result == 'skipped')
+    permissions:
+      contents: read # To checkout private repository
+    env:
+      # Use only the modules downloaded in the gomodule job.
+      # Fail instead of silently downloading modules without Takumi Guard.
+      GOPROXY: "off"
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Go and restore Go modules
+        uses: $/actions/setup
+        with:
+          aqua_version: ${{inputs.aqua_version}}
+          go-version: ${{inputs.go-version}}
+          go-version-file: ${{inputs.go-version-file}}
+          artifact_name: ${{inputs.gomodule_artifact_name || 'gomodule'}}
 
       - name: go test
         run: go test -v ./... -race -covermode=atomic
