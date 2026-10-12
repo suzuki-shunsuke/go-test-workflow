@@ -1,0 +1,38 @@
+name: setup
+description: Internal action to set up Go and restore Go modules for the lint and test jobs. Not intended for direct use.
+inputs:
+  aqua_version:
+    description: aqua version
+    required: true
+  go-version:
+    description: Go version
+    required: false
+  go-version-file:
+    description: Go version file path
+    required: false
+  artifact_name:
+    description: The name of the artifact created by download-go-module-action
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Validate inputs go-version and go-version-file
+      if: inputs.go-version == '' && inputs.go-version-file == ''
+      shell: bash
+      run: |
+        echo "::error:: Either go-version or go-version-file must be set."
+        exit 1
+
+    - name: Set up Go
+      uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      with:
+        go-version: ${{inputs.go-version}}
+        go-version-file: ${{inputs.go-version-file}}
+        # Go modules are restored from the artifact
+        cache: false
+
+    - name: Restore Go modules and go-licenses
+      uses: suzuki-shunsuke/download-go-module-action/restore@59ba5863b931de21763c13df6ad926cf98158517 # v0.0.8
+      with:
+        aqua_version: ${{inputs.aqua_version}}
+        artifact_name: ${{inputs.artifact_name}}
