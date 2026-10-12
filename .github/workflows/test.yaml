@@ -46,7 +46,7 @@ jobs:
     # Go modules and go-licenses are passed to the test job via an artifact.
     # Skipped if the caller passes its own artifact via gomodule_artifact_name.
     if: inputs.gomodule_artifact_name == ''
-    uses: suzuki-shunsuke/download-go-module-action/.github/workflows/download.yaml@e41b50de59a715fcc3dc9fd54f43d030749942c8 # v0.0.6
+    uses: suzuki-shunsuke/download-go-module-action/.github/workflows/download.yaml@dc4640ee5d5a7bea22008b5eac92a560ce90f1fb # v0.0.7
     permissions:
       contents: read
       id-token: write
@@ -92,7 +92,7 @@ jobs:
           cache: false
 
       - name: Restore Go modules and go-licenses
-        uses: suzuki-shunsuke/download-go-module-action/restore@e41b50de59a715fcc3dc9fd54f43d030749942c8 # v0.0.6
+        uses: suzuki-shunsuke/download-go-module-action/restore@dc4640ee5d5a7bea22008b5eac92a560ce90f1fb # v0.0.7
         with:
           aqua_version: ${{inputs.aqua_version}}
           artifact_name: ${{inputs.gomodule_artifact_name || 'gomodule'}}
