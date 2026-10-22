@@ -10,7 +10,7 @@ jobs:
   test:
     uses: suzuki-shunsuke/test-workflow/.github/workflows/test.yaml@51ece8dcaabff59820bfb2053c56e3cb281cf7b2 # v0.0.1
     with:
-      aqua_version: v2.64.0
+      aqua_version: v2.65.2
     permissions:
       pull-requests: read
       contents: read
@@ -18,7 +18,7 @@ jobs:
   go:
     uses: $/.github/workflows/test.yaml
     with:
-      aqua_version: v2.64.0
+      aqua_version: v2.65.2
       go-version-file: go.mod
     permissions:
       pull-requests: write
@@ -32,7 +32,7 @@ jobs:
       contents: read
       id-token: write
     with:
-      aqua_version: v2.64.0
+      aqua_version: v2.65.2
       aqua_packages: go-licenses
       # Avoid a conflict with the artifact of the go job
       artifact_name: gomodule-shared
@@ -43,7 +43,7 @@ jobs:
     needs: [gomodule]
     uses: $/.github/workflows/test.yaml
     with:
-      aqua_version: v2.64.0
+      aqua_version: v2.65.2
       go-version-file: go.mod
       gomodule_artifact_name: gomodule-shared
     permissions:
