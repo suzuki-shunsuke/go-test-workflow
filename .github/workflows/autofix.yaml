@@ -17,4 +17,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{github.token}}
       - run: aqua upc -prune
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+      - run: aqua upc -prune
+        working-directory: actions/install
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
       - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
