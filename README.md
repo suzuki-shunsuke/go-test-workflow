@@ -39,7 +39,7 @@ The artifact must include go-licenses.
 ```yaml
 jobs:
   gomodule:
-    uses: suzuki-shunsuke/download-go-module-action/.github/workflows/download.yaml@9b315459d80513111c52b004d15ad89e7b3e46b7 # v0.0.4
+    uses: suzuki-shunsuke/download-go-module-action/.github/workflows/download.yaml@5d7ee96c505de1e3265c2d5ad67d2c66076844f1 # v0.0.9
     permissions:
       contents: read
       id-token: write
