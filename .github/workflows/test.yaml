@@ -46,7 +46,7 @@ jobs:
     # Go modules and go-licenses are passed to the test job via an artifact.
     # Skipped if the caller passes its own artifact via gomodule_artifact_name.
     if: inputs.gomodule_artifact_name == ''
-    uses: suzuki-shunsuke/download-go-module-action/.github/workflows/download.yaml@v0.0.10
+    uses: suzuki-shunsuke/download-go-module-action/.github/workflows/download.yaml@e03acd0c9d3d230019ebb7bd4a62507431fe4316 # v0.0.10
     permissions:
       contents: read
       id-token: write
@@ -77,7 +77,7 @@ jobs:
       GOPROXY: "off"
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -114,7 +114,7 @@ jobs:
         run: go-licenses check --disallowed_types=forbidden,restricted,unknown ./...
 
       - name: golangci-lint
-        uses: suzuki-shunsuke/github-action-golangci-lint@v0.1.5
+        uses: suzuki-shunsuke/github-action-golangci-lint@9ec42b6334deb9b6e0a92372eba2dfbb333062e1 # v0.1.5
         if: |
           github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork
         with:
@@ -147,7 +147,7 @@ jobs:
       GOPROXY: "off"
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 

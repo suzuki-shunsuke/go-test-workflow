@@ -24,7 +24,7 @@ runs:
         exit 1
 
     - name: Set up Go
-      uses: actions/setup-go@v7.0.0
+      uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
         go-version: ${{inputs.go-version}}
         go-version-file: ${{inputs.go-version-file}}
@@ -32,7 +32,7 @@ runs:
         cache: false
 
     - name: Restore Go modules and go-licenses
-      uses: suzuki-shunsuke/download-go-module-action/restore@v0.0.10
+      uses: suzuki-shunsuke/download-go-module-action/restore@e03acd0c9d3d230019ebb7bd4a62507431fe4316 # v0.0.10
       with:
         aqua_version: ${{inputs.aqua_version}}
         artifact_name: ${{inputs.artifact_name}}

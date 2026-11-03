@@ -12,12 +12,6 @@ workflows:
         - 'autofix-ci/action@v1.3.4'
     '.github/workflows/check-commit-signing.yaml': []
     '.github/workflows/pull_request.yaml': []
-    '.github/workflows/test.yaml':
-        - 'actions/checkout@v7.0.1'
-        - 'actions/setup-go@v7.0.0'
-        - 'aquaproj/aqua-installer@611554c6f0137ba41c8dd15aca8bee82504ea461'
-        - 'suzuki-shunsuke/download-go-module-action@v0.0.10'
-        - 'suzuki-shunsuke/github-action-golangci-lint@v0.1.5'
     '.github/workflows/workflow_call_test.yaml': []
 dependencies:
     'actions/checkout@v7.0.1':
@@ -25,21 +19,6 @@ dependencies:
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
-    'actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333':
-        ref: 'v8.0.2'
-        commit: 'sha1-9000827ccba6bdab643e8b6fd33ac0654aef8333'
-        owner_id: 44036562
-        repo_id: 192626254
-    'actions/setup-go@v7.0.0':
-        ref: 'v7.0.0'
-        commit: 'sha1-b7ad1dad31e06c5925ef5d2fc7ad053ef454303e'
-        owner_id: 44036562
-        repo_id: 192624594
-    'aquaproj/aqua-installer@611554c6f0137ba41c8dd15aca8bee82504ea461':
-        ref: 'v4.1.1'
-        commit: 'sha1-611554c6f0137ba41c8dd15aca8bee82504ea461'
-        owner_id: 95116411
-        repo_id: 400140776
     'aquaproj/aqua-installer@v4.1.1':
         ref: 'v4.1.1'
         commit: 'sha1-611554c6f0137ba41c8dd15aca8bee82504ea461'
@@ -55,16 +34,3 @@ dependencies:
         commit: 'sha1-83c4a4a3b228afcf6dbf79d793c742de182de31e'
         owner_id: 13323303
         repo_id: 944510424
-    'suzuki-shunsuke/download-go-module-action@v0.0.10':
-        ref: 'v0.0.10'
-        commit: 'sha1-e03acd0c9d3d230019ebb7bd4a62507431fe4316'
-        owner_id: 13323303
-        repo_id: 1413953863
-        uses:
-            - 'actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333'
-            - 'aquaproj/aqua-installer@611554c6f0137ba41c8dd15aca8bee82504ea461'
-    'suzuki-shunsuke/github-action-golangci-lint@v0.1.5':
-        ref: 'v0.1.5'
-        commit: 'sha1-9ec42b6334deb9b6e0a92372eba2dfbb333062e1'
-        owner_id: 13323303
-        repo_id: 421208972
